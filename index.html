@@ -1,82 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt">
-<script>
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-  <head><script>
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcObra Pro</title>
+    
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
-</head>
 
-    <script defer src="/_vercel/insights/script.js"></script>
-    
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcObra Pro</title>
     <style>
         body { font-family: sans-serif; background: #f4f4f9; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { color: #2c3e50; text-align: center; }
-        label { display: block; margin-top: 10px; color: #666; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #2c3e50; margin-bottom: 5px; }
+        p.subtitle { font-size: 0.9em; color: #666; margin-bottom: 20px; }
+        label { display: block; margin-top: 10px; text-align: left; color: #444; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .result { margin-top: 20px; padding: 15px; background: #e8f6ef; border-radius: 8px; display: none; }
+        .result { margin-top: 20px; padding: 15px; background: #e8f6ef; border-radius: 8px; display: none; color: #27ae60; }
     </style>
-<script defer src="/_vercel/insights/script.js"></script>
-  </head>
-<script defer src="/_vercel/insights/script.js"></script>
-
+</head>
 <body>
-    <div class="card">
-        <h2>CalcObra 🏗️</h2>
-        <p style="font-size: 0.9em; text-align: center;">Cálculo de Tijolos por Parede</p>
-        
-        <label>Comprimento da Parede (m)</label>
-        <input type="number" id="compParede" placeholder="Ex: 5">
-        
-        <label>Altura da Parede (m)</label>
-        <input type="number" id="altParede" placeholder="Ex: 2.8">
-        
-        <label>Comprimento do Tijolo (cm)</label>
-        <input type="number" id="compTijolo" placeholder="Ex: 20">
-        
-        <label>Altura do Tijolo (cm)</label>
-        <input type="number" id="altTijolo" placeholder="Ex: 10">
 
-        <button onclick="calcular()">CALCULAR AGORA</button>
+<div class="card">
+    <h2>CalcObra 🏗️</h2>
+    <p class="subtitle">Cálculo de Tijolos por Parede</p>
 
-        <div id="resultado" class="result">
-            <strong>Resultado Estimado:</strong>
-            <p id="totalTijolos"></p>
-            <p style="font-size: 0.8em; color: #777;">*Considerando 10% de quebra.</p>
-        </div>
+    <label>Comprimento da Parede (m)</label>
+    <input type="number" id="compParede" placeholder="Ex: 5" step="0.01">
+
+    <label>Altura da Parede (m)</label>
+    <input type="number" id="altParede" placeholder="Ex: 2.8" step="0.01">
+
+    <label>Comprimento do Tijolo (cm)</label>
+    <input type="number" id="compTijolo" placeholder="Ex: 20">
+
+    <label>Altura do Tijolo (cm)</label>
+    <input type="number" id="altTijolo" placeholder="Ex: 10">
+
+    <button onclick="calcular()">CALCULAR AGORA</button>
+
+    <div id="resultado" class="result">
+        <strong>Resultado Estimado:</strong>
+        <p id="totalTijolos"></p>
+        <p style="font-size: 0.8em; color: #777;">*Considerando 10% de margem de quebra.</p>
     </div>
+</div>
 
-    <script>
-        function calcular() {
-            const cp = document.getElementById('compParede').value;
-            const ap = document.getElementById('altParede').value;
-            const ct = document.getElementById('compTijolo').value / 100;
-            const at = document.getElementById('altTijolo').value / 100;
+<script>
+    function calcular() {
+        const cp = document.getElementById('compParede').value;
+        const ap = document.getElementById('altParede').value;
+        const ct = document.getElementById('compTijolo').value / 100;
+        const at = document.getElementById('altTijolo').value / 100;
 
-            if(cp && ap && ct && at) {
-                const areaParede = cp * ap;
-                const areaTijolo = ct * at;
-                let total = Math.ceil(areaParede / areaTijolo);
-                total = Math.ceil(total * 1.10); // Adiciona 10% de margem de erro
+        if (cp && ap && ct && at) {
+            const areaParede = cp * ap;
+            const areaTijolo = ct * at;
+            let total = Math.ceil(areaParede / areaTijolo);
+            total = Math.ceil(total * 1.10); // Adiciona 10% de margem
 
-                document.getElementById('totalTijolos').innerHTML = `Você precisará de aproximadamente <b>${total} tijolos</b>.`;
-                document.getElementById('resultado').style.display = 'block';
-            } else {
-                alert("Por favor, preencha todos os campos!");
-            }
+            document.getElementById('totalTijolos').innerHTML = 'Você precisará de aproximadamente <b>' + total + '</b> tijolos.';
+            document.getElementById('resultado').style.display = 'block';
+        } else {
+            alert("Por favor, preencha todos os campos!");
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
