@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-58P7VZ8N6W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-58P7VZ8N6W');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalcObra Pro</title>
     
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-
     <style>
         body { font-family: sans-serif; background: #f4f4f9; padding: 20px; display: flex; justify-content: center; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
@@ -59,7 +62,7 @@
             const areaParede = cp * ap;
             const areaTijolo = ct * at;
             let total = Math.ceil(areaParede / areaTijolo);
-            total = Math.ceil(total * 1.10); // Adiciona 10% de margem
+            total = Math.ceil(total * 1.10);
 
             document.getElementById('totalTijolos').innerHTML = 'Você precisará de aproximadamente <b>' + total + '</b> tijolos.';
             document.getElementById('resultado').style.display = 'block';
