@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -11,28 +12,32 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcObra Pro - Completo</title>
+    <title>CalcObra Pro - Oficial</title>
     
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; padding: 15px; display: flex; justify-content: center; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
         h2 { color: #2c3e50; text-align: center; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #7f8c8d; font-size: 0.9em; margin-bottom: 25px; }
         label { display: block; margin-top: 15px; color: #34495e; font-weight: 600; font-size: 0.85em; }
-        input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
-        input:focus { border-color: #27ae60; }
-        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-size: 17px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-size: 17px; font-weight: bold; }
         .result { margin-top: 25px; padding: 20px; background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 12px; display: none; }
         .result-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #c6f6d5; padding-bottom: 5px; }
         .val { font-weight: bold; color: #2d3748; }
-        .footer-note { font-size: 0.75em; color: #a0aec0; margin-top: 15px; text-align: center; }
+        
+        /* Estilo da Política de Privacidade */
+        .footer-links { margin-top: 30px; text-align: center; font-size: 12px; color: #95a5a6; }
+        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 15% auto; padding: 20px; width: 80%; border-radius: 10px; max-height: 70vh; overflow-y: auto; }
+        .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>CalcObra Pro 🏗️</h2>
-    <p class="subtitle">Tijolos, Cimento e Areia</p>
+    <p class="subtitle">Moçambique - Versão Profissional</p>
 
     <label>Comprimento da Parede (m)</label>
     <input type="number" id="cp" placeholder="Ex: 5" step="0.01">
@@ -49,7 +54,21 @@
         <div class="result-item"><span>🧱 Tijolos:</span> <span id="resTijolo" class="val">0</span></div>
         <div class="result-item"><span>📦 Cimento (50kg):</span> <span id="resCimento" class="val">0</span></div>
         <div class="result-item"><span>⏳ Areia (m³):</span> <span id="resAreia" class="val">0</span></div>
-        <p class="footer-note">*Cálculo inclui 10% de margem de desperdício.</p>
+        <p style="font-size: 0.7em; color: #7f8c8d;">*Inclui 10% de margem de segurança.</p>
+    </div>
+</div>
+
+<div class="footer-links">
+    <p>© 2026 CalcObra Pro - Solfino Marcelino</p>
+    <a href="javascript:void(0)" onclick="openModal()" style="color: #27ae60; text-decoration: none;">Política de Privacidade</a>
+</div>
+
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Política de Privacidade</h3>
+        <p>A CalcObra Pro utiliza cookies para analisar o tráfego através do Google Analytics. Os dados recolhidos (como o tipo de telemóvel e localização geral) são anónimos e servem para melhorar a ferramenta. Futuramente, poderemos exibir anúncios através do Google AdSense, que também utiliza cookies para personalizar a publicidade.</p>
+        <p>Ao utilizar este site, concorda com estas condições.</p>
     </div>
 </div>
 
@@ -61,30 +80,24 @@
 
         if (cp > 0 && ap > 0) {
             const area = cp * ap;
-            
-            // Cálculo base para tijolo padrão 20x10x15cm
-            // 1m2 gasta aprox 35 tijolos dependendo da posição
-            let tijolos = Math.ceil(area * 38); 
-            tijolos = Math.ceil(tijolos * 1.10); // +10%
-
-            // Estimativa de Argamassa (Cimento e Areia)
-            // Volume de argamassa aprox 0.02m3 por m2 de parede
+            let tijolos = Math.ceil(area * 38 * 1.10); 
             const volArgamassa = area * 0.022;
-            let sacosCimento = Math.ceil(volArgamassa * 5.5); // Aprox 5.5 sacos por m3 de argamassa
+            let sacosCimento = Math.ceil(volArgamassa * 5.5);
             let m3Areia = (volArgamassa * 0.9).toFixed(2);
 
             document.getElementById('resTijolo').innerText = tijolos + ' uni';
             document.getElementById('resCimento').innerText = sacosCimento + ' sacos';
             document.getElementById('resAreia').innerText = m3Areia + ' m³';
-            
             document.getElementById('res').style.display = 'block';
             
-            // Envia evento para o Analytics saber que alguém calculou
-            gtag('event', 'calculo_realizado', { 'event_category': 'ferramenta', 'event_label': 'obra_completa' });
+            gtag('event', 'calculo_v2', { 'metodo': 'completo' });
         } else {
-            alert("Por favor, preencha as dimensões da parede.");
+            alert("Preencha as dimensões.");
         }
     }
+
+    function openModal() { document.getElementById("privacyModal").style.display = "block"; }
+    function closeModal() { document.getElementById("privacyModal").style.display = "none"; }
 </script>
 
 </body>
