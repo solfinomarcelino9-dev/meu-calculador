@@ -11,63 +11,78 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcObra Pro</title>
+    <title>CalcObra Pro - Completo</title>
     
     <style>
-        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        h2 { color: #2c3e50; margin-bottom: 5px; }
-        p.subtitle { font-size: 0.9em; color: #666; margin-bottom: 20px; }
-        label { display: block; margin-top: 10px; text-align: left; color: #444; font-weight: bold; }
-        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .result { margin-top: 20px; padding: 15px; background: #e8f6ef; border-radius: 8px; display: none; color: #27ae60; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; padding: 15px; display: flex; justify-content: center; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #7f8c8d; font-size: 0.9em; margin-bottom: 25px; }
+        label { display: block; margin-top: 15px; color: #34495e; font-weight: 600; font-size: 0.85em; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #27ae60; }
+        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-size: 17px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .result { margin-top: 25px; padding: 20px; background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 12px; display: none; }
+        .result-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #c6f6d5; padding-bottom: 5px; }
+        .val { font-weight: bold; color: #2d3748; }
+        .footer-note { font-size: 0.75em; color: #a0aec0; margin-top: 15px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>CalcObra 🏗️</h2>
-    <p class="subtitle">Cálculo de Tijolos por Parede</p>
+    <h2>CalcObra Pro 🏗️</h2>
+    <p class="subtitle">Tijolos, Cimento e Areia</p>
 
     <label>Comprimento da Parede (m)</label>
-    <input type="number" id="compParede" placeholder="Ex: 5" step="0.01">
+    <input type="number" id="cp" placeholder="Ex: 5" step="0.01">
 
     <label>Altura da Parede (m)</label>
-    <input type="number" id="altParede" placeholder="Ex: 2.8" step="0.01">
+    <input type="number" id="ap" placeholder="Ex: 3" step="0.01">
 
-    <label>Comprimento do Tijolo (cm)</label>
-    <input type="number" id="compTijolo" placeholder="Ex: 20">
+    <label>Espessura da Junta (cm)</label>
+    <input type="number" id="junta" value="1.5">
 
-    <label>Altura do Tijolo (cm)</label>
-    <input type="number" id="altTijolo" placeholder="Ex: 10">
+    <button onclick="calcularTudo()">Calcular Materiais</button>
 
-    <button onclick="calcular()">CALCULAR AGORA</button>
-
-    <div id="resultado" class="result">
-        <strong>Resultado Estimado:</strong>
-        <p id="totalTijolos"></p>
-        <p style="font-size: 0.8em; color: #777;">*Considerando 10% de margem de quebra.</p>
+    <div id="res" class="result">
+        <div class="result-item"><span>🧱 Tijolos:</span> <span id="resTijolo" class="val">0</span></div>
+        <div class="result-item"><span>📦 Cimento (50kg):</span> <span id="resCimento" class="val">0</span></div>
+        <div class="result-item"><span>⏳ Areia (m³):</span> <span id="resAreia" class="val">0</span></div>
+        <p class="footer-note">*Cálculo inclui 10% de margem de desperdício.</p>
     </div>
 </div>
 
 <script>
-    function calcular() {
-        const cp = document.getElementById('compParede').value;
-        const ap = document.getElementById('altParede').value;
-        const ct = document.getElementById('compTijolo').value / 100;
-        const at = document.getElementById('altTijolo').value / 100;
+    function calcularTudo() {
+        const cp = parseFloat(document.getElementById('cp').value);
+        const ap = parseFloat(document.getElementById('ap').value);
+        const junta = parseFloat(document.getElementById('junta').value) / 100;
 
-        if (cp && ap && ct && at) {
-            const areaParede = cp * ap;
-            const areaTijolo = ct * at;
-            let total = Math.ceil(areaParede / areaTijolo);
-            total = Math.ceil(total * 1.10);
+        if (cp > 0 && ap > 0) {
+            const area = cp * ap;
+            
+            // Cálculo base para tijolo padrão 20x10x15cm
+            // 1m2 gasta aprox 35 tijolos dependendo da posição
+            let tijolos = Math.ceil(area * 38); 
+            tijolos = Math.ceil(tijolos * 1.10); // +10%
 
-            document.getElementById('totalTijolos').innerHTML = 'Você precisará de aproximadamente <b>' + total + '</b> tijolos.';
-            document.getElementById('resultado').style.display = 'block';
+            // Estimativa de Argamassa (Cimento e Areia)
+            // Volume de argamassa aprox 0.02m3 por m2 de parede
+            const volArgamassa = area * 0.022;
+            let sacosCimento = Math.ceil(volArgamassa * 5.5); // Aprox 5.5 sacos por m3 de argamassa
+            let m3Areia = (volArgamassa * 0.9).toFixed(2);
+
+            document.getElementById('resTijolo').innerText = tijolos + ' uni';
+            document.getElementById('resCimento').innerText = sacosCimento + ' sacos';
+            document.getElementById('resAreia').innerText = m3Areia + ' m³';
+            
+            document.getElementById('res').style.display = 'block';
+            
+            // Envia evento para o Analytics saber que alguém calculou
+            gtag('event', 'calculo_realizado', { 'event_category': 'ferramenta', 'event_label': 'obra_completa' });
         } else {
-            alert("Por favor, preencha todos os campos!");
+            alert("Por favor, preencha as dimensões da parede.");
         }
     }
 </script>
