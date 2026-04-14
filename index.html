@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -12,7 +11,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcObra Pro - Oficial</title>
+    <title>CalcObra Pro - Blocos MZ</title>
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; padding: 15px; display: flex; flex-direction: column; align-items: center; }
@@ -20,84 +19,78 @@
         h2 { color: #2c3e50; text-align: center; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #7f8c8d; font-size: 0.9em; margin-bottom: 25px; }
         label { display: block; margin-top: 15px; color: #34495e; font-weight: 600; font-size: 0.85em; }
-        input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; background: white; }
         button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-size: 17px; font-weight: bold; }
         .result { margin-top: 25px; padding: 20px; background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 12px; display: none; }
         .result-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #c6f6d5; padding-bottom: 5px; }
         .val { font-weight: bold; color: #2d3748; }
-        
-        /* Estilo da Política de Privacidade */
-        .footer-links { margin-top: 30px; text-align: center; font-size: 12px; color: #95a5a6; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: white; margin: 15% auto; padding: 20px; width: 80%; border-radius: 10px; max-height: 70vh; overflow-y: auto; }
-        .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .footer-links { margin-top: 30px; text-align: center; font-size: 11px; color: #95a5a6; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>CalcObra Pro 🏗️</h2>
-    <p class="subtitle">Moçambique - Versão Profissional</p>
+    <p class="subtitle">Especialista em Blocos de Cimento</p>
+
+    <label>Tipo de Bloco (Dimensões em cm)</label>
+    <select id="tipoBloco">
+        <option value="12.5">Bloco de 10 (10x20x40)</option>
+        <option value="12.5">Bloco de 15 (15x20x40)</option>
+        <option value="12.5">Bloco de 20 (20x20x40)</option>
+    </select>
 
     <label>Comprimento da Parede (m)</label>
-    <input type="number" id="cp" placeholder="Ex: 5" step="0.01">
+    <input type="number" id="cp" placeholder="Ex: 10" step="0.01">
 
     <label>Altura da Parede (m)</label>
     <input type="number" id="ap" placeholder="Ex: 3" step="0.01">
 
-    <label>Espessura da Junta (cm)</label>
-    <input type="number" id="junta" value="1.5">
-
-    <button onclick="calcularTudo()">Calcular Materiais</button>
+    <button onclick="calcularObra()">Calcular Materiais</button>
 
     <div id="res" class="result">
-        <div class="result-item"><span>🧱 Tijolos:</span> <span id="resTijolo" class="val">0</span></div>
+        <div class="result-item"><span>🧱 Quantidade de Blocos:</span> <span id="resBloco" class="val">0</span></div>
         <div class="result-item"><span>📦 Cimento (50kg):</span> <span id="resCimento" class="val">0</span></div>
         <div class="result-item"><span>⏳ Areia (m³):</span> <span id="resAreia" class="val">0</span></div>
-        <p style="font-size: 0.7em; color: #7f8c8d;">*Inclui 10% de margem de segurança.</p>
+        <p style="font-size: 0.7em; color: #7f8c8d; margin-top: 10px;">*Cálculo para blocos de 40cm de comprimento, incluindo 10% de quebras.</p>
     </div>
 </div>
 
 <div class="footer-links">
     <p>© 2026 CalcObra Pro - Solfino Marcelino</p>
-    <a href="javascript:void(0)" onclick="openModal()" style="color: #27ae60; text-decoration: none;">Política de Privacidade</a>
-</div>
-
-<div id="privacyModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Política de Privacidade</h3>
-        <p>A CalcObra Pro utiliza cookies para analisar o tráfego através do Google Analytics. Os dados recolhidos (como o tipo de telemóvel e localização geral) são anónimos e servem para melhorar a ferramenta. Futuramente, poderemos exibir anúncios através do Google AdSense, que também utiliza cookies para personalizar a publicidade.</p>
-        <p>Ao utilizar este site, concorda com estas condições.</p>
-    </div>
+    <a href="javascript:void(0)" onclick="alert('Política de Privacidade: Usamos Google Analytics para melhorar sua experiência.')" style="color: #27ae60; text-decoration: none;">Privacidade</a>
 </div>
 
 <script>
-    function calcularTudo() {
+    function calcularObra() {
         const cp = parseFloat(document.getElementById('cp').value);
         const ap = parseFloat(document.getElementById('ap').value);
-        const junta = parseFloat(document.getElementById('junta').value) / 100;
+        const tipo = document.getElementById('tipoBloco').value;
 
         if (cp > 0 && ap > 0) {
             const area = cp * ap;
-            let tijolos = Math.ceil(area * 38 * 1.10); 
-            const volArgamassa = area * 0.022;
-            let sacosCimento = Math.ceil(volArgamassa * 5.5);
-            let m3Areia = (volArgamassa * 0.9).toFixed(2);
+            
+            // Em Moçambique, um bloco padrão de 40x20cm ocupa 0.08m2.
+            // São necessários 12.5 blocos por m2 (sem contar juntas).
+            // Com as juntas de 1.5cm, usamos cerca de 12 blocos por m2.
+            let blocos = Math.ceil(area * 12.5 * 1.10); 
 
-            document.getElementById('resTijolo').innerText = tijolos + ' uni';
+            // Cálculo de argamassa de assentamento
+            // Blocos de 15 e 20 gastam mais massa que o de 10.
+            const volArgamassa = area * 0.025; 
+            let sacosCimento = Math.ceil(volArgamassa * 6); // Estimativa de sacos por m3
+            let m3Areia = (volArgamassa * 0.95).toFixed(2);
+
+            document.getElementById('resBloco').innerText = blocos + ' unidades';
             document.getElementById('resCimento').innerText = sacosCimento + ' sacos';
             document.getElementById('resAreia').innerText = m3Areia + ' m³';
             document.getElementById('res').style.display = 'block';
             
-            gtag('event', 'calculo_v2', { 'metodo': 'completo' });
+            gtag('event', 'calculo_blocos_mz', { 'area': area });
         } else {
-            alert("Preencha as dimensões.");
+            alert("Por favor, preencha os dados da parede.");
         }
     }
-
-    function openModal() { document.getElementById("privacyModal").style.display = "block"; }
-    function closeModal() { document.getElementById("privacyModal").style.display = "none"; }
 </script>
 
 </body>
