@@ -11,37 +11,34 @@
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6725244517311706" crossorigin="anonymous"></script>
 
-    <meta name="google-adsense-account" content="ca-pub-6776589430071706">
+    <meta name="google-adsense-account" content="ca-pub-6725244517311706">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcObra Pro - Mueda</title>
+    <title>CalcObra Pro - Engenharia Civil em Mueda</title>
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        h2 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; margin-bottom: 20px; }
+        .info-section { background: white; padding: 20px; border-radius: 15px; width: 100%; max-width: 500px; line-height: 1.6; color: #444; }
+        h2, h3 { color: #2c3e50; text-align: center; }
         .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #dfe6e9; }
-        .tab { padding: 10px 20px; cursor: pointer; color: #7f8c8d; font-weight: bold; transition: 0.3s; }
+        .tab { padding: 10px 20px; cursor: pointer; color: #7f8c8d; font-weight: bold; }
         .tab.active { color: #27ae60; border-bottom: 3px solid #27ae60; }
         .content { display: none; }
         .content.active { display: block; }
-        label { display: block; margin-top: 15px; color: #34495e; font-weight: 600; font-size: 0.85em; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
-        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-size: 17px; font-weight: bold; }
+        label { display: block; margin-top: 15px; font-weight: 600; font-size: 0.85em; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; }
+        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; }
         .result { margin-top: 25px; padding: 20px; background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 12px; display: none; }
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #c6f6d5; padding-bottom: 5px; }
-        .val { font-weight: bold; color: #2d3748; }
-        .footer { margin-top: 30px; text-align: center; font-size: 11px; color: #95a5a6; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: white; margin: 15% auto; padding: 20px; width: 80%; border-radius: 10px; max-height: 70vh; overflow-y: auto; }
-        .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .val { font-weight: bold; color: #2d3748; float: right; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>CalcObra Pro 🏗️</h2>
+    <p style="text-align:center; font-size: 0.9em; color: #666;">Ferramenta de Precisão para Construção Civil</p>
     
     <div class="tabs">
         <div class="tab active" onclick="openTab(event, 'parede')">PAREDE</div>
@@ -63,40 +60,50 @@
     </div>
 
     <div id="obra" class="content">
-        <label>Perímetro Total (Paredes em m)</label>
+        <label>Perímetro Total (m)</label>
         <input type="number" id="o_peri" placeholder="Ex: 40">
-        <label>Altura (Pé-direito em m)</label>
+        <label>Altura (m)</label>
         <input type="number" id="o_alt" value="3.0">
-        <label>Desconto (Portas/Janelas em m²)</label>
+        <label>Desconto (Portas/Janelas m²)</label>
         <input type="number" id="o_desc" placeholder="Ex: 6.5">
     </div>
 
-    <button onclick="calcularTudo()">CALCULAR AGORA</button>
+    <button onclick="calcularTudo()">CALCULAR MATERIAIS</button>
 
     <div id="resBox" class="result">
-        <div class="result-item"><span>🧱 Blocos Necessários:</span> <span id="resBloco" class="val">0</span></div>
-        <div class="result-item"><span>📦 Cimento (50kg):</span> <span id="resCimento" class="val">0</span></div>
-        <div class="result-item"><span>⏳ Areia (m³):</span> <span id="resAreia" class="val">0</span></div>
-        <p id="infoArea" style="font-size: 0.75em; color: #7f8c8d; margin-top: 10px; text-align: center;"></p>
+        <p><strong>Resultados Estimados:</strong></p>
+        <div style="margin-bottom: 10px;">🧱 Blocos: <span id="resBloco" class="val">0</span></div>
+        <div style="margin-bottom: 10px;">📦 Cimento (50kg): <span id="resCimento" class="val">0</span></div>
+        <div style="margin-bottom: 10px;">⏳ Areia: <span id="resAreia" class="val">0</span></div>
+        <p id="infoArea" style="font-size: 0.8em; text-align: center; margin-top: 15px; border-top: 1px solid #ccc; padding-top: 10px;"></p>
     </div>
 </div>
 
-<div class="footer">
-    <p>© 2026 Solfino Marcelino - Mueda</p>
-    <a href="javascript:void(0)" onclick="openModal()" style="color: #27ae60; text-decoration: none; font-size: 10px;">Política de Privacidade</a>
+<div class="info-section">
+    <h3>Sobre a CalcObra Pro</h3>
+    <p>A <strong>CalcObra Pro</strong> é uma ferramenta desenvolvida em Mueda para auxiliar profissionais de engenharia civil e proprietários de obras no cálculo rigoroso de materiais. O uso correto desta ferramenta evita o desperdício de recursos e otimiza o orçamento da construção.</p>
+    
+    <h3>Como realizar o cálculo?</h3>
+    <ul>
+        <li><strong>Parede:</strong> Introduza o comprimento e a altura para obter os dados de uma superfície simples.</li>
+        <li><strong>Obra Toda:</strong> Introduza o perímetro total de todas as paredes e subtraia a área de portas e janelas.</li>
+    </ul>
+
+    <h3>Importância do Traço</h3>
+    <p>Os cálculos baseiam-se num traço médio de argamassa para assentamento. Lembre-se que a qualidade do cimento e a granulometria da areia local podem influenciar o consumo final. Recomendamos sempre uma margem de segurança de 10% no pedido dos blocos.</p>
 </div>
 
-<div id="privacyModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+<p style="font-size: 11px; color: #95a5a6; margin-top: 20px;">© 2026 Solfino Marcelino - Mueda, Moçambique | <a href="javascript:void(0)" onclick="openModal()" style="color: #27ae60;">Privacidade</a></p>
+
+<div id="privacyModal" style="display:none; position:fixed; background:rgba(0,0,0,0.8); top:0; left:0; width:100%; height:100%; padding:20px; box-sizing:border-box; color:white;">
+    <div style="background:white; color:black; padding:20px; border-radius:10px; max-width:400px; margin:auto;">
+        <span onclick="closeModal()" style="float:right; cursor:pointer;">X</span>
         <h3>Política de Privacidade</h3>
-        <p>A CalcObra Pro utiliza Google Analytics e Google AdSense. Recolhemos dados anónimos para melhorar o serviço e exibir anúncios.</p>
+        <p>Este site utiliza Google AdSense para exibir anúncios e Google Analytics para monitorar o tráfego. Não recolhemos dados pessoais sensíveis.</p>
     </div>
 </div>
 
 <script>
-    let abaAtual = 'parede';
-
     function openTab(evt, tabName) {
         let contents = document.getElementsByClassName("content");
         for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
@@ -104,13 +111,14 @@
         for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
         document.getElementById(tabName).classList.add("active");
         evt.currentTarget.classList.add("active");
-        abaAtual = tabName;
         document.getElementById('resBox').style.display = 'none';
     }
 
     function calcularTudo() {
         let area = 0;
-        if (abaAtual === 'parede') {
+        let activeTab = document.querySelector('.content.active').id;
+        
+        if (activeTab === 'parede') {
             const comp = parseFloat(document.getElementById('p_comp').value);
             const alt = parseFloat(document.getElementById('p_alt').value);
             if (comp > 0 && alt > 0) area = comp * alt;
@@ -126,11 +134,15 @@
             const volArgamassa = area * 0.025;
             let nSacos = Math.ceil(volArgamassa * 6);
             let nAreia = (volArgamassa * 0.95).toFixed(2);
+            
             document.getElementById('resBloco').innerText = nBlocos + ' un';
             document.getElementById('resCimento').innerText = nSacos + ' sacos';
             document.getElementById('resAreia').innerText = nAreia + ' m³';
-            document.getElementById('infoArea').innerText = "Área: " + area.toFixed(2) + " m²";
+            document.getElementById('infoArea').innerText = "Área Total Calculada: " + area.toFixed(2) + " m²";
             document.getElementById('resBox').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        } else {
+            alert("Por favor, preencha os valores corretamente.");
         }
     }
 
